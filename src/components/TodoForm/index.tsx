@@ -4,6 +4,8 @@ import tw from 'tailwind-styled-components';
 import useTodoStore from '../../stores';
 import { useShallow } from 'zustand/shallow';
 import Button from '../Button';
+import { apiRequestWithAuth, useMutationWithAuth } from '../../services';
+import { Controllers } from '../../constants';
 
 const TextInput = tw.input`
     appearance-none
@@ -23,8 +25,18 @@ const TodoForm = () => {
     const [todo, setTodo] = useTodoStore(useShallow((_) => [_.todo, _.setTodo]));
     const { register, handleSubmit, formState: { errors } } = useForm<TodoModel>({ defaultValues: { ...todo } });
 
+    const createTodoMutation = useMutationWithAuth({
+        mutationKey: ["CreateTodo"],
+        mutationFn: (newTodo: TodoModel) =>
+            apiRequestWithAuth<TodoModel>({
+                controller: Controllers.Todo,
+                method: "POST",
+                body: newTodo,
+            })
+    })
+
     const onSubmit = (updatedTodo: TodoModel) => {
-        console.log("updatedTodo", updatedTodo)
+        createTodoMutation.mutate(updatedTodo);
         setTodo(undefined);
     }
 
