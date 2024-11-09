@@ -4,3 +4,8 @@ export interface TodoModel {
     title: string;
     isDone: boolean;
 }
+
+export interface UserModel {
+    email: string;
+    password: string;
+}

@@ -1,42 +1,22 @@
 import { useForm } from 'react-hook-form';
 import { TodoModel } from '../../interfaces';
-import tw from 'tailwind-styled-components';
 import useTodoStore from '../../stores';
 import { useShallow } from 'zustand/shallow';
 import Button from '../Button';
-import { apiRequestWithAuth, useMutationWithAuth } from '../../services';
-import { Controllers } from '../../constants';
-
-const TextInput = tw.input`
-    appearance-none
-    border
-    rounded
-    w-full
-    py-2
-    px-3
-    text-gray-700
-    leading-tight
-    focus:outline-none
-    focus:shadow-outline
-    placeholder:text-gray-400
-`
+import { useCreateTodoMutation, useUpdateTodoMutation } from '../../services';
+import { TextInput } from '../Inputs';
 
 const TodoForm = () => {
     const [todo, setTodo] = useTodoStore(useShallow((_) => [_.todo, _.setTodo]));
     const { register, handleSubmit, formState: { errors } } = useForm<TodoModel>({ defaultValues: { ...todo } });
+    const isEdit = !!todo?.id;
 
-    const createTodoMutation = useMutationWithAuth({
-        mutationKey: ["CreateTodo"],
-        mutationFn: (newTodo: TodoModel) =>
-            apiRequestWithAuth<TodoModel>({
-                controller: Controllers.Todo,
-                method: "POST",
-                body: newTodo,
-            })
-    })
+    const createTodoMutation = useCreateTodoMutation();
+    const updateTodoMutation = useUpdateTodoMutation();
 
-    const onSubmit = (updatedTodo: TodoModel) => {
-        createTodoMutation.mutate(updatedTodo);
+    const onSubmit = (todoToSubmit: TodoModel) => {
+        if (isEdit) updateTodoMutation.mutate(todoToSubmit)
+        else createTodoMutation.mutate(todoToSubmit);
         setTodo(undefined);
     }
 
@@ -45,7 +25,7 @@ const TodoForm = () => {
             <div>
                 <div className='pb-8'>
                     <h2 className='text-2xl font-semibold'>
-                        {todo?.id ? "Edit To Do" : "Create To Do" }
+                        {isEdit ? "Edit To Do" : "Create To Do" }
                     </h2>
                 </div>
                 <div className='flex flex-col gap-5'>

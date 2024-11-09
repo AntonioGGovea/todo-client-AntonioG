@@ -4,21 +4,14 @@ import TodoForm from '../../components/TodoForm';
 import useTodoStore from '../../stores';
 import { useShallow } from 'zustand/shallow';
 import Button from '../../components/Button';
-import { apiRequestWithAuth, useQueryWithAuth } from '../../services';
-import { Controllers } from '../../constants';
-import { TodoModel } from '../../interfaces';
+import { useGetTodoListQuery } from '../../services';
 
 const Todo = () => {
     const [todo, setTodo, setNewTodo] = useTodoStore(
         useShallow((_) => [_.todo, _.setTodo, _.setNewTodo])
     );
 
-    const todoQuery = useQueryWithAuth({
-        queryKey: ["GetTodoList"],
-        queryFn: () => apiRequestWithAuth<TodoModel[]>({
-            controller: Controllers.Todo,
-        })
-    });
+    const todoQuery = useGetTodoListQuery();
 
     return (
         <div>

@@ -1,6 +1,7 @@
 import { AuthEndpoints, Controllers } from '../../constants';
+import { UserModel } from '../../interfaces';
 
-// TODO: get it from env
+// TODO: get from env
 const baseUrl = "https://localhost:44350/api/";
 export const tokenStorageKey = "tokenStorageKey";
 
@@ -31,18 +32,23 @@ export const apiRequest = <TBody = undefined>(
     });
 }
 
-export const authorize = () => apiRequest({
+export const login = (user: UserModel) => apiRequest({
     controller: Controllers.Auth,
     endpoint: AuthEndpoints.Login,
     method: "POST",
-    body: {
-        email: "test@test.com",
-        password: "test",
-    }
+    body: user
 })
-    .then((authRes) => {
-        return authRes.text()
-    })
+    .then((authRes) => authRes.text())
+    .then((token) => {
+        if (token) sessionStorage.setItem(tokenStorageKey, token)
+        return token;
+    });
+
+export const refreshToken = () => apiRequest({
+    controller: Controllers.Auth,
+    endpoint: AuthEndpoints.GenerateToken,
+})
+    .then((authRes) => authRes.text())
     .then((token) => {
         if (token) sessionStorage.setItem(tokenStorageKey, token)
         return token;
@@ -53,11 +59,11 @@ export const apiRequestWithAuth = async <TResult = unknown, TBody = unknown>(
 ): Promise<TResult> => {
     const response = await apiRequest<TBody>(props)
         .then((res) => {
-            if (res.ok) {
-                const result = res?.json() as TResult;
-                return result
+            if (!res.ok) {
+                return Promise.reject(new Error("Add message here"));
             }
-            return Promise.reject(new Error("Add message here"));
+            const result = res?.json().catch(() => { }) as TResult;
+            return result
         });
     return response
 };
