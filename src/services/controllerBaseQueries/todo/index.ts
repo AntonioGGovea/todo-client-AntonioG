@@ -4,7 +4,7 @@ import { TodoModel } from '../../../interfaces';
 import { useMutationWithAuth, useQueryWithAuth } from '../../baseQueries';
 import { apiRequestWithAuth } from '../../baseRequests';
 
-const GET_TODO_LIST_KEY = "GetTodoList";
+const GET_TODO_LIST_KEY = 'GetTodoList';
 
 export const useGetTodoListQuery = () => useQueryWithAuth({
     queryKey: [GET_TODO_LIST_KEY],
@@ -18,34 +18,34 @@ const invalidateTodoListQuery = () => queryClient.invalidateQueries({
 });
 
 export const useCreateTodoMutation = () => useMutationWithAuth({
-    mutationKey: ["CreateTodo"],
+    mutationKey: ['CreateTodo'],
     mutationFn: (todo: TodoModel) =>
         apiRequestWithAuth<TodoModel>({
             controller: Controllers.Todo,
-            method: "POST",
+            method: 'POST',
             body: todo,
         }),
     onSuccess: invalidateTodoListQuery
 })
 
 export const useUpdateTodoMutation = () => useMutationWithAuth({
-    mutationKey: ["UpdateTodo"],
+    mutationKey: ['UpdateTodo'],
     mutationFn: (todo: TodoModel) =>
         apiRequestWithAuth<TodoModel>({
             controller: Controllers.Todo,
-            method: "PATCH",
+            method: 'PATCH',
             body: todo,
         }),
     onSuccess: invalidateTodoListQuery
 })
 
 export const useDeleteTodoMutation = () => useMutationWithAuth({
-    mutationKey: ["DeleteTodo"],
+    mutationKey: ['DeleteTodo'],
     mutationFn: (id: number) =>
         apiRequestWithAuth({
             controller: Controllers.Todo,
             endpoint: id.toString(),
-            method: "DELETE",
+            method: 'DELETE',
         }),
     onSuccess: invalidateTodoListQuery
 })

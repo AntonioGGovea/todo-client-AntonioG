@@ -3,7 +3,7 @@ import { TodoModel } from '../interfaces';
 
 const newTodo: TodoModel = {
     isDone: false,
-    title: "",
+    title: '',
 }
 
 interface TodoState {

@@ -3,9 +3,9 @@ import { AuthEndpoints, Controllers } from '../../constants';
 import { UserModel } from '../../interfaces';
 
 // TODO: get from env
-const baseUrl = "https://localhost:44350/api/";
+const baseUrl = 'https://localhost:44350/api/';
 
-type MethodTypes = "GET" | "POST" | "PATCH" | "DELETE";
+type MethodTypes = 'GET' | 'POST' | 'PATCH' | 'DELETE';
 
 interface RequestProps<TBody = undefined> {
     controller: Controllers,
@@ -17,14 +17,14 @@ interface RequestProps<TBody = undefined> {
 export const apiRequest = <TBody = undefined>(
     props: RequestProps<TBody>
 ) => {
-    const endpoint = props.endpoint ? `/${props.endpoint}` : "";
+    const endpoint = props.endpoint ? `/${props.endpoint}` : '';
     const bodyIfExists = props.body && { body: JSON.stringify(props.body) };
 
     return fetch(
         `${baseUrl}${props.controller}${endpoint}`, {
-        method: props.method ?? "GET",
+        method: props.method ?? 'GET',
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             authorization: `Bearer ${tokenClient.get()}`,
         },
         ...bodyIfExists,
@@ -34,12 +34,12 @@ export const apiRequest = <TBody = undefined>(
 export const login = (user: UserModel) => apiRequest({
     controller: Controllers.Auth,
     endpoint: AuthEndpoints.Login,
-    method: "POST",
+    method: 'POST',
     body: user
 })
     .then((authRes) => {
         if (authRes.ok) return authRes.text();
-        return Promise.reject(new Error("Failed to login"))
+        return Promise.reject(new Error('Failed to login'))
     })
     .then((token) => {
         if (token) tokenClient.set(token)
@@ -52,7 +52,7 @@ export const refreshToken = () => apiRequest({
 })
     .then((authRes) => {
         if (authRes.ok) return authRes.text();
-        return Promise.reject(new Error("Couldn't retrieve token"))
+        return Promise.reject(new Error('Couldn\'t retrieve token'))
     })
     .then((token) => {
         if (token) tokenClient.set(token)
@@ -65,7 +65,7 @@ export const apiRequestWithAuth = async <TResult = unknown, TBody = unknown>(
     const response = await apiRequest<TBody>(props)
         .then((res) => {
             if (!res.ok) {
-                return Promise.reject(new Error("Add message here"));
+                return Promise.reject(new Error('Add message here'));
             }
             const result = res?.json().catch(() => { }) as TResult;
             return result

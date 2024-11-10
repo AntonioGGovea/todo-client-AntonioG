@@ -2,13 +2,14 @@ import { QueryClient } from '@tanstack/react-query';
 import { createBrowserRouter } from 'react-router-dom';
 import Login from '../pages/Login';
 import ErrorPage from '../pages/ErrorPage';
-import AuthProvider from '../components/Auth';
+import AuthProvider from '../pages/Auth';
 import Todo from '../pages/Todo';
 import TodoModal from '../pages/Todo/TodoModal';
+import pages from '../constants';
 
 export const queryClient = new QueryClient();
 
-const tokenStorageKey = "tokenStorageKey";
+const tokenStorageKey = 'tokenStorageKey';
 
 export const tokenClient = {
     get: () => sessionStorage.getItem(tokenStorageKey),
@@ -23,15 +24,15 @@ export const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
             {
-                path: "todo",
+                path: pages.todo.path,
                 element: <Todo />,
                 children: [
                     {
-                        path: "create",
+                        path: pages.todo.children.create.name,
                         element: <TodoModal />
                     },
                     {
-                        path: ":todoId",
+                        path: ':todoId',
                         element: <TodoModal />
                     }
                 ]

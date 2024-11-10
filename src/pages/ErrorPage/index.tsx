@@ -9,7 +9,7 @@ const ErrorPage = () => {
             <h4>Oops!</h4>
             <p>An unexpected error has occurred.</p>
             <p>
-                <i>{error?.status || error.message}</i>
+                <i>{error?.status ?? error.message}</i>
             </p>
         </div>
     )

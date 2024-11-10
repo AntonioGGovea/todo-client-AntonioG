@@ -1,1 +1,2 @@
-export * from "./requestConstants";
+export * from './requestConstants';
+export { default } from './pages';

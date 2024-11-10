@@ -3,6 +3,7 @@ import { Modal } from '../../components/Modal';
 import TodoForm from '../../components/TodoForm';
 import useTodoStore from '../../stores';
 import { useShallow } from 'zustand/shallow';
+import pages from '../../constants';
 
 const TodoModal = () => {
     const [setTodo] = useTodoStore(useShallow((_) => [_.setTodo]));
@@ -10,7 +11,7 @@ const TodoModal = () => {
 
     const onClose = () => {
         setTodo(undefined);
-        navigate('/todo');
+        navigate(pages.todo.path);
     };
 
     return (

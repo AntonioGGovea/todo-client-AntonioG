@@ -6,6 +6,10 @@ import Button from '../Button';
 import { useCreateTodoMutation, useUpdateTodoMutation } from '../../services';
 import { TextInput } from '../Inputs';
 import { useNavigate } from 'react-router-dom';
+import Label from '../Label';
+import { InputError } from '../Errors';
+import { FormContainer, FormContent, FormHeader } from '../FormLayout';
+import pages from '../../constants';
 
 const TodoForm = () => {
     const [todo, setTodo] = useTodoStore(useShallow((_) => [_.todo, _.setTodo]));
@@ -19,40 +23,36 @@ const TodoForm = () => {
     const onSubmit = (todoToSubmit: TodoModel) => {
         const mutateFn = isEdit ? updateTodoMutation.mutate : createTodoMutation.mutate;
         mutateFn(todoToSubmit, {
-            onSuccess: () => navigate('/todo'),
+            onSuccess: () => navigate(pages.todo.path),
         });
         setTodo(undefined);
     }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
-                <div className='pb-8'>
-                    <h2 className='text-2xl font-semibold'>
-                        {isEdit ? "Edit To Do" : "Create To Do" }
-                    </h2>
-                </div>
-                <div className='flex flex-col gap-5'>
+            <FormContainer>
+                <FormHeader>
+                    {isEdit ? 'Edit To Do' : 'Create To Do' }
+                </FormHeader>
+                <FormContent>
                     <div>
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="label">
+                        <Label className='mb-2' htmlFor='label'>
                             Label
-                        </label>
-                        <TextInput id="label" type="text" placeholder="Label" {...register("title", { required: true })} />
-                        {errors.title && (<span className="text-red-500 text-xs">This field is required</span>)}
+                        </Label>
+                        <TextInput id='label' type='text' placeholder='Label' {...register('title', { required: true })} />
+                        {errors.title && (<InputError>This field is required</InputError>)}
                     </div>
                     <div className='flex items-center gap-3'>
-                        <input type='checkbox' {...register("isDone")} />
-                        <label className="block text-gray-700 text-sm font-bold" htmlFor="label">
-                            Done
-                        </label>
+                        <input type='checkbox' {...register('isDone')} />
+                        <Label htmlFor='label'>Done</Label>
                     </div>
-                </div>
+                </FormContent>
                 <div className='flex justify-end mt-6'>
-                    <Button type="submit" $variant='secondary'>
+                    <Button type='submit' $variant='secondary'>
                         Save
                     </Button>
                 </div>
-            </div>
+            </FormContainer>
         </form>
     )
 };
