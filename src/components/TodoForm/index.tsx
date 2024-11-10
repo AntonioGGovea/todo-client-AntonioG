@@ -5,18 +5,22 @@ import { useShallow } from 'zustand/shallow';
 import Button from '../Button';
 import { useCreateTodoMutation, useUpdateTodoMutation } from '../../services';
 import { TextInput } from '../Inputs';
+import { useNavigate } from 'react-router-dom';
 
 const TodoForm = () => {
     const [todo, setTodo] = useTodoStore(useShallow((_) => [_.todo, _.setTodo]));
     const { register, handleSubmit, formState: { errors } } = useForm<TodoModel>({ defaultValues: { ...todo } });
+    const navigate = useNavigate();
     const isEdit = !!todo?.id;
 
     const createTodoMutation = useCreateTodoMutation();
     const updateTodoMutation = useUpdateTodoMutation();
 
     const onSubmit = (todoToSubmit: TodoModel) => {
-        if (isEdit) updateTodoMutation.mutate(todoToSubmit)
-        else createTodoMutation.mutate(todoToSubmit);
+        const mutateFn = isEdit ? updateTodoMutation.mutate : createTodoMutation.mutate;
+        mutateFn(todoToSubmit, {
+            onSuccess: () => navigate('/todo'),
+        });
         setTodo(undefined);
     }
 

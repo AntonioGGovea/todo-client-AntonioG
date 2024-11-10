@@ -1,7 +1,7 @@
 import tw from 'tailwind-styled-components';
 
 interface ButtonProps {
-    $variant?: "primary" | "secondary";
+    $variant?: "primary" | "secondary" | "text";
 }
 
 const Button = tw.button<ButtonProps>`
@@ -13,6 +13,9 @@ const Button = tw.button<ButtonProps>`
     ${(b) => {
         if (b.$variant === "secondary") {
             return "bg-cyan-600 hover:bg-cyan-700"
+        }
+        if (b.$variant === "text") {
+            return "hover:opacity-85 bg-inherit"
         }
         return "bg-indigo-600  hover:bg-indigo-700"
     }}

@@ -1,6 +1,6 @@
 
 import { DefaultError, UndefinedInitialDataOptions, useMutation, UseMutationOptions, UseMutationResult, useQuery, UseQueryResult } from '@tanstack/react-query';
-import { tokenStorageKey } from '../baseRequests';
+import { tokenClient } from '../../config';
 
 export const useQueryWithAuth = <
     TQueryFnData = unknown,
@@ -8,7 +8,7 @@ export const useQueryWithAuth = <
     TData = TQueryFnData
 >(options: UndefinedInitialDataOptions<TQueryFnData, TError, TData, unknown[]>)
     : UseQueryResult<TData, TError> => {
-    const token = sessionStorage.getItem(tokenStorageKey);
+    const token = tokenClient.get();
     return useQuery({
         ...options,
         queryKey: [...options.queryKey, token],
@@ -25,7 +25,7 @@ export const useMutationWithAuth = <
     TContext = unknown
 >(options: UseMutationOptions<TData, TError, TVariables, TContext>)
     : UseMutationResult<TData, TError, TVariables, TContext> => {
-    const token = sessionStorage.getItem(tokenStorageKey);
+    const token = tokenClient.get();
     return useMutation({
         ...options,
         mutationKey: [options.mutationKey, token],

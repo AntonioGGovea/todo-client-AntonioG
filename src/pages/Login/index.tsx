@@ -3,13 +3,18 @@ import Button from '../../components/Button';
 import { UserModel } from '../../interfaces';
 import { TextInput } from '../../components/Inputs';
 import { useLoginMutation } from '../../services/controllerBaseQueries/auth';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<UserModel>();
+    const navigate = useNavigate();
     const loginMutation = useLoginMutation();
 
+
     const onSubmit = (user: UserModel) => {
-        loginMutation.mutate(user);
+        loginMutation.mutate(user, {
+            onSuccess: () => navigate("/todo"),
+        });
     }
 
     return (
@@ -33,7 +38,7 @@ const Login = () => {
                             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="label">
                                 Password
                             </label>
-                            <TextInput id="label" type="text" placeholder="Label" {...register("password", { required: true, minLength: 4 })} />
+                            <TextInput id="label" type="password" placeholder="Label" {...register("password", { required: true, minLength: 4 })} />
                             {errors.password && (<span className="text-red-500 text-xs">This field is required</span>)}
                         </div>
                     </div>
