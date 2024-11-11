@@ -31,15 +31,15 @@ export const apiRequest = <TBody = undefined>(
     });
 }
 
-export const login = (user: UserModel) => apiRequest({
+export const login = (user: UserModel, type: 'login' | 'register' = 'login') => apiRequest({
     controller: Controllers.Auth,
-    endpoint: AuthEndpoints.Login,
+    endpoint: type === 'login' ? AuthEndpoints.Login : undefined,
     method: 'POST',
     body: user
 })
     .then((authRes) => {
         if (authRes.ok) return authRes.text();
-        return Promise.reject(new Error('Failed to login'))
+        return Promise.reject(new Error(`Failed to ${type}`))
     })
     .then((token) => {
         if (token) tokenClient.set(token)

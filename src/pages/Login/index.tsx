@@ -2,22 +2,30 @@ import { useForm } from 'react-hook-form';
 import Button from '../../components/Button';
 import { UserModel } from '../../interfaces';
 import { TextInput } from '../../components/Inputs';
-import { useLoginMutation } from '../../services/controllerBaseQueries/auth';
+import { useLoginMutation, useRegisterMutation } from '../../services/controllerBaseQueries/auth';
 import { useNavigate } from 'react-router-dom';
 import { InputError } from '../../components/Errors';
 import { FormContainer, FormContent, FormHeader } from '../../components/FormLayout';
 import Label from '../../components/Label';
 import { StyledLoginButtonContainer, StyledLoginCard } from './styled';
-import pages from '../../constants';
+import { pages } from '../../constants';
 
 const Login = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm<UserModel>();
+    const { register, watch, handleSubmit, trigger, formState: { errors } } = useForm<UserModel>();
     const navigate = useNavigate();
     const loginMutation = useLoginMutation();
+    const registerMutation = useRegisterMutation();
 
-    // TODO: Register
     const onSubmit = (user: UserModel) => {
         loginMutation.mutate(user, {
+            onSuccess: () => navigate(pages.todo.path),
+        });
+    }
+
+    const onRegister = async () => {
+        const result = await trigger(undefined, { shouldFocus: true });
+        if (!result) return;
+        registerMutation.mutate(watch(), {
             onSuccess: () => navigate(pages.todo.path),
         });
     }
@@ -32,7 +40,7 @@ const Login = () => {
                             <div>
                                 <Label className='mb-2' htmlFor='label'>Email</Label>
                                 <TextInput id='label' type='text' placeholder='email' {...register('email', { required: true })} />
-                                {errors.email && (<InputError>This field is required</InputError>)}
+                                {errors.email?.type === 'required' && (<InputError>This field is required.</InputError>)}
                             </div>
                             <div>
                                 <Label className='mb-2' htmlFor='label'>Password</Label>
@@ -41,14 +49,15 @@ const Login = () => {
                                     type='password'
                                     {...register('password', { required: true, minLength: 4 })}
                                 />
-                                {errors.password && (<InputError>This field is required</InputError>)}
+                                {errors.password?.type === 'required' && (<InputError>This field is required</InputError>)}
+                                {errors.password?.type === 'minLength' && (<InputError>This field should have at least three characters.</InputError>)}
                             </div>
                         </FormContent>
                         <StyledLoginButtonContainer>
                             <Button className='w-fit' type='submit' $variant='primary'>
                                 Login
                             </Button>
-                            <Button className='w-fit' type='submit' $variant='secondary'>
+                            <Button onClick={onRegister} className='w-fit' type='button' $variant='secondary'>
                                 Register
                             </Button>
                         </StyledLoginButtonContainer>

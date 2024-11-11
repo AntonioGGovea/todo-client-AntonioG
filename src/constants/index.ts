@@ -1,2 +1,3 @@
 export * from './requestConstants';
-export { default } from './pages';
+export { default as pages } from './pages';
+export { default as errorMessages } from './errorMessages';

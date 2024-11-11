@@ -5,7 +5,7 @@ import ErrorPage from '../pages/ErrorPage';
 import AuthProvider from '../pages/Auth';
 import Todo from '../pages/Todo';
 import TodoModal from '../pages/Todo/TodoModal';
-import pages from '../constants';
+import { pages } from '../constants';
 
 export const queryClient = new QueryClient();
 

@@ -9,6 +9,10 @@ const pages = {
             } 
         }
     },
+    login: {
+        name: 'login',
+        path: '/login',
+    }
 } as const;
 
 export default pages;

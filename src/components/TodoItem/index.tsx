@@ -2,22 +2,17 @@ import { FaTrash, FaEdit  } from 'react-icons/fa';
 import { TodoModel } from '../../interfaces';
 import useTodoStore from '../../stores';
 import { useShallow } from 'zustand/shallow';
-import { useDeleteTodoMutation } from '../../services';
 import { useNavigate } from 'react-router-dom';
 import { StyledTodoItem } from './styled';
 
 interface TodoItemProps {
     todo: TodoModel;
+    onDelete: (id: number) => void;
 }
 
-const TodoItem = ({ todo }: TodoItemProps) => {
+const TodoItem = ({ todo, onDelete }: TodoItemProps) => {
     const [setTodo] = useTodoStore(useShallow((_) => [_.setTodo]));
     const navigate = useNavigate();
-    const deleteTodoMutation = useDeleteTodoMutation();
-
-    const onDelete = () => {
-        if (todo.id) deleteTodoMutation.mutate(todo.id)
-    };
     
     const onEditClick = () => {
         setTodo(todo);
@@ -27,8 +22,8 @@ const TodoItem = ({ todo }: TodoItemProps) => {
     return (
         <StyledTodoItem>
             <div className='flex items-center gap-3'>
-                <button>
-                    <FaTrash onClick={onDelete} />
+                <button data-testid={`delete-${todo.id}`}>
+                    <FaTrash onClick={() => onDelete(Number(todo.id))} />
                 </button>
                 <button>
                     <FaEdit onClick={onEditClick} />

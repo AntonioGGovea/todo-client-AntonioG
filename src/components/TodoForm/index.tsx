@@ -7,9 +7,9 @@ import { useCreateTodoMutation, useUpdateTodoMutation } from '../../services';
 import { TextInput } from '../Inputs';
 import { useNavigate } from 'react-router-dom';
 import Label from '../Label';
-import { InputError } from '../Errors';
+import { ActionError, InputError } from '../Errors';
 import { FormContainer, FormContent, FormHeader } from '../FormLayout';
-import pages from '../../constants';
+import { errorMessages, pages } from '../../constants';
 
 const TodoForm = () => {
     const [todo, setTodo] = useTodoStore(useShallow((_) => [_.todo, _.setTodo]));
@@ -30,6 +30,16 @@ const TodoForm = () => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
+            {createTodoMutation.error && (
+                <ActionError onClose={() => createTodoMutation.reset()}>
+                    {errorMessages.todo.create}
+                </ActionError>
+            )}
+            {updateTodoMutation.error && (
+                <ActionError onClose={() => updateTodoMutation.reset()}>
+                    {errorMessages.todo.update}
+                </ActionError>
+            )}
             <FormContainer>
                 <FormHeader>
                     {isEdit ? 'Edit To Do' : 'Create To Do' }

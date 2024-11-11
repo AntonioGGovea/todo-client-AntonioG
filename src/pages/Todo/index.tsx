@@ -2,23 +2,36 @@ import TodoItem from '../../components/TodoItem';
 import useTodoStore from '../../stores';
 import { useShallow } from 'zustand/shallow';
 import Button from '../../components/Button';
-import { useGetTodoListQuery } from '../../services';
+import { useDeleteTodoMutation, useGetTodoListQuery } from '../../services';
 import { Outlet, useNavigate } from 'react-router-dom';
-import pages from '../../constants';
+import { ActionError } from '../../components/Errors';
+import { errorMessages, pages } from '../../constants';
 
 const Todo = () => {
     const [setNewTodo] = useTodoStore(useShallow((_) => [_.setNewTodo]));
     const navigate = useNavigate();
 
     const todoQuery = useGetTodoListQuery();
+    const deleteTodoMutation = useDeleteTodoMutation();
+
+    const onDelete = (id: number) => {
+        deleteTodoMutation.mutate(id)
+    };
     
     const onCreateClick = () => {
         setNewTodo();
         navigate(pages.todo.children.create.name)
     };
 
+    console.log(deleteTodoMutation)
+
     return (
         <div className='p-6 flex flex-col gap-4'>
+            {deleteTodoMutation.error && (
+                <ActionError onClose={() => deleteTodoMutation.reset()}>
+                    {errorMessages.todo.remove}
+                </ActionError>
+            )}
             <div className='flex justify-end w-full'>
                 <Button type='button' onClick={onCreateClick}>
                     Create To Do
@@ -27,7 +40,7 @@ const Todo = () => {
             <div>
                 <div className='flex flex-col gap-2'>
                     {todoQuery.data?.map((entry) => (
-                        <TodoItem key={entry.id} todo={entry} />
+                        <TodoItem key={entry.id} todo={entry} onDelete={onDelete} />
                     ))}
                 </div>
             </div>

@@ -29,7 +29,5 @@ export const useMutationWithAuth = <
     return useMutation({
         ...options,
         mutationKey: [options.mutationKey, token],
-        retry: true,
-        retryDelay: 1000,
     });
 };
