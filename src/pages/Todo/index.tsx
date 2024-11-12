@@ -22,8 +22,13 @@ const Todo = () => {
     return (
         <div className='p-6 flex flex-col gap-4'>
             {deleteTodoMutation.error && (
-                <ActionError onClose={() => deleteTodoMutation.reset()}>
+                <ActionError onClose={deleteTodoMutation.reset}>
                     {errorMessages.todo.remove}
+                </ActionError>
+            )}
+            {todoQuery.error && (
+                <ActionError onClose={deleteTodoMutation.reset}>
+                    {errorMessages.todo.getList}
                 </ActionError>
             )}
             <div className='flex justify-end w-full'>
@@ -36,6 +41,7 @@ const Todo = () => {
                     {todoQuery.data?.map((entry) => (
                         <TodoItem key={entry.id} todo={entry} onDelete={deleteTodoMutation.mutate} />
                     ))}
+                    {todoQuery.isLoading && <div>Loading...</div>}
                 </div>
             </div>
             <Outlet />

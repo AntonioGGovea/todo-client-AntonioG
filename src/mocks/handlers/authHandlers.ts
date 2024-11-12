@@ -24,7 +24,7 @@ const authHandlers = [
             return HttpResponse.text("token");
         }
     ),
-    http.post(buildUrl(Controllers.Auth, AuthEndpoints.Logout),
+    http.get(buildUrl(Controllers.Auth, AuthEndpoints.Logout),
         () => {
             return new HttpResponse(null, { status: 200 });
         }

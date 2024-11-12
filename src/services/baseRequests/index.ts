@@ -2,9 +2,6 @@ import { tokenClient } from '../../config';
 import { AuthEndpoints, Controllers } from '../../constants';
 import { UserModel } from '../../interfaces';
 
-// TODO: get from env
-const baseUrl = 'https://localhost:44350/api/';
-
 type MethodTypes = 'GET' | 'POST' | 'PATCH' | 'DELETE';
 
 interface RequestProps<TBody = undefined> {
@@ -21,7 +18,7 @@ export const apiRequest = <TBody = undefined>(
     const bodyIfExists = props.body && { body: JSON.stringify(props.body) };
 
     return fetch(
-        `${baseUrl}${props.controller}${endpoint}`, {
+        `${import.meta.env.BASE_URL}${props.controller}${endpoint}`, {
         method: props.method ?? 'GET',
         headers: {
             'Content-Type': 'application/json',

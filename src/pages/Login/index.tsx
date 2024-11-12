@@ -34,7 +34,7 @@ const Login = () => {
                 </Button>
             </StyledLoginButtonContainer>
             {loginMutation.error && (
-                <ActionError onClose={() => loginMutation.reset()}>
+                <ActionError onClose={loginMutation.reset}>
                     {errorMessages.generalError}
                 </ActionError>
             )}

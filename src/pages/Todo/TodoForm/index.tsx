@@ -23,20 +23,22 @@ const TodoForm = () => {
     const onSubmit = (todoToSubmit: TodoModel) => {
         const mutateFn = isEdit ? updateTodoMutation.mutate : createTodoMutation.mutate;
         mutateFn(todoToSubmit, {
-            onSuccess: () => navigate(pages.todo.path),
+            onSuccess: () => {
+                setTodo(undefined);
+                navigate(pages.todo.path);
+            },
         });
-        setTodo(undefined);
     }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             {createTodoMutation.error && (
-                <ActionError onClose={() => createTodoMutation.reset()}>
+                <ActionError onClose={createTodoMutation.reset}>
                     {errorMessages.todo.create}
                 </ActionError>
             )}
             {updateTodoMutation.error && (
-                <ActionError onClose={() => updateTodoMutation.reset()}>
+                <ActionError onClose={updateTodoMutation.reset}>
                     {errorMessages.todo.update}
                 </ActionError>
             )}

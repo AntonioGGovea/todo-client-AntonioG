@@ -3,9 +3,9 @@ import { render } from '@testing-library/react';
 import { createMemoryRouter, RouteObject, RouterProvider } from 'react-router-dom';
 import { queryClient } from '../config';
 
-const renderWithRouter = (children: RouteObject, routes: RouteObject[] = []) => {
-    const router = createMemoryRouter([{ ...children }, ...routes], {
-        initialEntries: ["/", children.path as string],
+const renderWithRouter = (current: RouteObject, routes: RouteObject[] = []) => {
+    const router = createMemoryRouter([{ ...current }, ...routes], {
+        initialEntries: ["/", current.path as string],
         initialIndex: 1,
     });
 

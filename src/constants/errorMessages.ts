@@ -8,6 +8,7 @@ const errorMessages = {
         remove: crudMessageBuilder("removing", "Todo"),
         update: crudMessageBuilder("updating", "Todo"),
         create: crudMessageBuilder("creating", "Todo"),
+        getList: crudMessageBuilder("getting", "list of Todos"),
     },
     generalError,
 }

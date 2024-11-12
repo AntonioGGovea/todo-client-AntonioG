@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest';
-import { screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import { basicTestConfig, renderWithRouter } from '../../mocks';
 import { pages } from '../../constants';
 import Auth from '.';
@@ -23,6 +23,18 @@ test('With invalid token redirect to login', async () => {
     renderWithRouter(getAuthWithRoute(), [
         { element: <Login />, path: '/login' }
     ]);
+
+    const redirect = await screen.findByText('Redirecting...');
+    expect(redirect).toBeInTheDocument();
+    tokenClient.set('token');
+});
+
+test('Logout button redirect to login', async () => {
+    renderWithRouter(getAuthWithRoute(), [
+        { element: <Login />, path: '/login' }
+    ]);
+
+    fireEvent.click(await screen.findByText('Logout'))
 
     const redirect = await screen.findByText('Redirecting...');
     expect(redirect).toBeInTheDocument();

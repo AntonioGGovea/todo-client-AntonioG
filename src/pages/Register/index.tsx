@@ -2,7 +2,7 @@ import Button from '../../components/Button';
 import { UserModel } from '../../interfaces';
 import { useRegisterMutation } from '../../services/controllerBaseQueries/auth';
 import { useNavigate } from 'react-router-dom';
-import { StyledLoginButtonContainer } from './styled';
+import { StyledLoginButtonContainer } from '../Login/styled';
 import { errorMessages, pages } from '../../constants';
 import LoginForm from '../../components/LoginForm';
 import { ActionError } from '../../components/Errors';
@@ -34,7 +34,7 @@ const Register = () => {
                 </Button>
             </StyledLoginButtonContainer>
             {registerMutation.error && (
-                <ActionError onClose={() => registerMutation.reset()}>
+                <ActionError onClose={registerMutation.reset}>
                     {errorMessages.generalError}
                 </ActionError>
             )}
