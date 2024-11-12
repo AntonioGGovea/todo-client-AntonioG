@@ -10,7 +10,7 @@ const PageHeader = () => {
             <StyledPageHeader>
                 To Do
             </StyledPageHeader>
-            <Button type='button' $variant='text' onClick={logout}>
+            <Button type='button' $color='white' $variant='text' onClick={logout}>
                 Logout
             </Button>
         </StyledPageHeaderContainer>

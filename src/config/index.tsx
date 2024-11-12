@@ -4,8 +4,9 @@ import Login from '../pages/Login';
 import ErrorPage from '../pages/ErrorPage';
 import AuthProvider from '../pages/Auth';
 import Todo from '../pages/Todo';
-import TodoModal from '../pages/Todo/TodoModal';
+import TodoModal from '../pages/Todo/TodoModal/TodoModal';
 import { pages } from '../constants';
+import Register from '../pages/Register';
 
 export const queryClient = new QueryClient();
 
@@ -42,6 +43,11 @@ export const router = createBrowserRouter([
     {
         path: 'login',
         element: <Login />,
+        errorElement: <ErrorPage />,
+    },
+    {
+        path: 'register',
+        element: <Register />,
         errorElement: <ErrorPage />,
     }
 ])

@@ -1,6 +1,6 @@
 import { FaTrash, FaEdit  } from 'react-icons/fa';
-import { TodoModel } from '../../interfaces';
-import useTodoStore from '../../stores';
+import { TodoModel } from '../../../interfaces';
+import useTodoStore from '../../../stores';
 import { useShallow } from 'zustand/shallow';
 import { useNavigate } from 'react-router-dom';
 import { StyledTodoItem } from './styled';

@@ -1,17 +1,17 @@
 import Button from '../../components/Button';
 import { UserModel } from '../../interfaces';
-import { useLoginMutation } from '../../services/controllerBaseQueries/auth';
+import { useRegisterMutation } from '../../services/controllerBaseQueries/auth';
 import { useNavigate } from 'react-router-dom';
 import { StyledLoginButtonContainer } from './styled';
 import { pages } from '../../constants';
 import LoginForm from '../../components/LoginForm';
 
-const Login = () => {
+const Register = () => {
     const navigate = useNavigate();
-    const loginMutation = useLoginMutation();
+    const registerMutation = useRegisterMutation();
 
     const onSubmit = (user: UserModel) => {
-        loginMutation.mutate(user, {
+        registerMutation.mutate(user, {
             onSuccess: () => navigate(pages.todo.path),
         });
     };
@@ -20,20 +20,20 @@ const Login = () => {
         <LoginForm onSubmit={onSubmit}>
             <StyledLoginButtonContainer>
                 <Button className='w-fit' type='submit'>
-                    Login
+                    Register
                 </Button>
                 <Button
-                    onClick={() => navigate('/register')}
+                    onClick={() => navigate('/login')}
                     className='w-fit'
                     type='button'
                     $color='secondary'
                     $variant='text'
                 >
-                    Register
+                    Login
                 </Button>
             </StyledLoginButtonContainer>
         </LoginForm>
     );
 }
 
-export default Login;
+export default Register;

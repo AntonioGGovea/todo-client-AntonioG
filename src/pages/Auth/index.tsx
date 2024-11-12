@@ -15,8 +15,6 @@ const AuthProvider = () => {
 
     const query = useRefetchTokenQuery();
 
-    console.log('query.error', query.error)
-
     useEffect(() => {
         if ((query.error || !token) && !isLogin) {
             logout();

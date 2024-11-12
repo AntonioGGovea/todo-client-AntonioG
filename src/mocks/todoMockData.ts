@@ -16,6 +16,7 @@ const todoMockData = {
     getTodo,
     getTodoList,
     getCreateTodo: () => getTodo(100),
+    getFailingTodo: () => getTodo(3),
     getUpdatedTodo: () => ({ ...getTodo(), title: 'new title' }),
 };
 

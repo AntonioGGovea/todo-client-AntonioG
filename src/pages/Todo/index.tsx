@@ -1,4 +1,4 @@
-import TodoItem from '../../components/TodoItem';
+import TodoItem from './TodoItem';
 import useTodoStore from '../../stores';
 import { useShallow } from 'zustand/shallow';
 import Button from '../../components/Button';
@@ -18,8 +18,6 @@ const Todo = () => {
         setNewTodo();
         navigate(pages.todo.children.create.name)
     };
-
-    console.log(deleteTodoMutation)
 
     return (
         <div className='p-6 flex flex-col gap-4'>

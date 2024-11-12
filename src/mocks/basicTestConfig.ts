@@ -12,13 +12,13 @@ const basicTestConfig = () => {
 
     beforeAll(() => {
         tokenClient.set("token");
-        [1, 2, 3].map((i) => entries.todo.push(db.todo.create(todoMockData.getTodo(i))))
+        [1, 2, 3].forEach((i) => entries.todo.push(db.todo.create(todoMockData.getTodo(i))))
         server.listen()
     });
     afterEach(() => {
         const todoIds = entries.todo.map(x => Number(x.id))
         db.todo.deleteMany({ where: { id: { in: todoIds } }});
-        [1, 2, 3].map((_, i) => db.todo.create(entries.todo[i]))
+        [1, 2, 3].forEach((_, i) => db.todo.create(entries.todo[i]))
         server.resetHandlers();
     });
     afterAll(() => {

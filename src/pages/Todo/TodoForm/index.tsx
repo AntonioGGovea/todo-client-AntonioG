@@ -1,15 +1,15 @@
 import { useForm } from 'react-hook-form';
-import { TodoModel } from '../../interfaces';
-import useTodoStore from '../../stores';
+import { TodoModel } from '../../../interfaces';
+import useTodoStore from '../../../stores';
 import { useShallow } from 'zustand/shallow';
-import Button from '../Button';
-import { useCreateTodoMutation, useUpdateTodoMutation } from '../../services';
-import { TextInput } from '../Inputs';
+import Button from '../../../components/Button';
+import { useCreateTodoMutation, useUpdateTodoMutation } from '../../../services';
+import { TextInput } from '../../../components/Inputs';
 import { useNavigate } from 'react-router-dom';
-import Label from '../Label';
-import { ActionError, InputError } from '../Errors';
-import { FormContainer, FormContent, FormHeader } from '../FormLayout';
-import { errorMessages, pages } from '../../constants';
+import Label from '../../../components/Label';
+import { ActionError, InputError } from '../../../components/Errors';
+import { FormContainer, FormContent, FormHeader } from '../../../components/FormLayout';
+import { errorMessages, pages } from '../../../constants';
 
 const TodoForm = () => {
     const [todo, setTodo] = useTodoStore(useShallow((_) => [_.todo, _.setTodo]));
@@ -58,7 +58,7 @@ const TodoForm = () => {
                     </div>
                 </FormContent>
                 <div className='flex justify-end mt-6'>
-                    <Button type='submit' $variant='secondary'>
+                    <Button type='submit' $color='secondary'>
                         Save
                     </Button>
                 </div>

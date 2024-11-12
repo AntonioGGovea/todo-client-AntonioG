@@ -9,7 +9,7 @@ const renderWithRouter = (children: ReactElement, routes: { element: ReactElemen
 
     const options = { element: withProviders, path: '/todo' } as RouteObject;
 
-    const router = createMemoryRouter([{ ...options as RouteObject }, ...routes], {
+    const router = createMemoryRouter([{ ...options }, ...routes], {
         initialEntries: ["/", options.path as string],
         initialIndex: 1,
     });
