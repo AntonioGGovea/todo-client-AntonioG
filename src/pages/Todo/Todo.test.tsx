@@ -3,22 +3,24 @@ import { test, expect } from 'vitest';
 import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import { basicTestConfig, renderWithRouter, todoMockData } from '../../mocks';
 import TodoModal from './TodoModal/TodoModal';
-import { errorMessages } from '../../constants';
+import { errorMessages, pages } from '../../constants';
 
-const entries = basicTestConfig();
+const getTodoWithRoute = () => ({ element: <Todo />, path: pages.todo.path });
+
+basicTestConfig();
 
 // GET
 test('Displays todo list', async () => {
-    renderWithRouter(<Todo />);
+    renderWithRouter(getTodoWithRoute());
 
-    const todo = await screen.findByText(entries.todo[0].title);
+    const todo = await screen.findByText(todoMockData.getTodo().title);
 
     expect(todo).toBeInTheDocument();
 });
 
 // CREATE
 test('Crate todo updates the list', async () => {
-    renderWithRouter(<Todo />, [
+    renderWithRouter(getTodoWithRoute(), [
         { element: <TodoModal />, path: 'todo/create' }
     ]);
 
@@ -34,7 +36,7 @@ test('Crate todo updates the list', async () => {
 });
 
 test('Create todo fails causes error message to be displayed', async () => {
-    renderWithRouter(<Todo />, [
+    renderWithRouter(getTodoWithRoute(), [
         { element: <TodoModal />, path: 'todo/:todId' }
     ]);
 
@@ -51,7 +53,7 @@ test('Create todo fails causes error message to be displayed', async () => {
 
 // UPDATE
 test('Update todo updates the list', async () => {
-    renderWithRouter(<Todo />, [
+    renderWithRouter(getTodoWithRoute(), [
         { element: <TodoModal />, path: 'todo/:todId' }
     ]);
 
@@ -67,7 +69,7 @@ test('Update todo updates the list', async () => {
 });
 
 test('Update todo fails causes error message to be displayed', async () => {
-    renderWithRouter(<Todo />, [
+    renderWithRouter(getTodoWithRoute(), [
         { element: <TodoModal />, path: 'todo/:todId' }
     ]);
 
@@ -84,7 +86,7 @@ test('Update todo fails causes error message to be displayed', async () => {
 
 // DELETE
 test('Delete todo updates the list', async () => {
-    renderWithRouter(<Todo />);
+    renderWithRouter(getTodoWithRoute());
     const todoTitle = todoMockData.getTodo().title;
     const todo = await screen.findByText(todoTitle);
 
@@ -99,7 +101,7 @@ test('Delete todo updates the list', async () => {
 });
 
 test('Delete todo fails causes error message to be displayed', async () => {
-    renderWithRouter(<Todo />);
+    renderWithRouter(getTodoWithRoute());
     const todoTitle = todoMockData.getFailingTodo().title;
     const todo = await screen.findByText(todoTitle);
 

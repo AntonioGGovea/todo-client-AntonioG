@@ -1,18 +1,12 @@
 
 import { http, HttpResponse } from 'msw';
-import { Controllers } from '../constants';
-import db from './db';
-import todoMockData from './todoMockData';
-import { TodoModel } from '../interfaces';
+import { Controllers } from '../../constants';
+import db from '../db';
+import { todoMockData } from '../dataMocks';
+import { TodoModel } from '../../interfaces';
+import { buildUrl } from './utils';
 
-const baseUrl = 'https://localhost:44350/api/';
-
-const buildUrl = (controller: Controllers, endpoint?: string | number) => {
-    const endpointOrDefault = endpoint ? `/${endpoint}` : '';
-    return `${baseUrl}${controller}${endpointOrDefault}`;
-};
-
-export const handlers = [
+const todoHandlers = [
     http.get(buildUrl(Controllers.Todo), () => {
         return HttpResponse.json(db.todo.getAll())
     }),
@@ -57,4 +51,6 @@ export const handlers = [
             return HttpResponse.json({ success: true })
         }
     ),
-]
+];
+
+export default todoHandlers;

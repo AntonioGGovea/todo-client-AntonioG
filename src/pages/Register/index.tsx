@@ -3,8 +3,9 @@ import { UserModel } from '../../interfaces';
 import { useRegisterMutation } from '../../services/controllerBaseQueries/auth';
 import { useNavigate } from 'react-router-dom';
 import { StyledLoginButtonContainer } from './styled';
-import { pages } from '../../constants';
+import { errorMessages, pages } from '../../constants';
 import LoginForm from '../../components/LoginForm';
+import { ActionError } from '../../components/Errors';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -32,6 +33,11 @@ const Register = () => {
                     Login
                 </Button>
             </StyledLoginButtonContainer>
+            {registerMutation.error && (
+                <ActionError onClose={() => registerMutation.reset()}>
+                    {errorMessages.generalError}
+                </ActionError>
+            )}
         </LoginForm>
     );
 }

@@ -1,4 +1,4 @@
-import { TodoModel } from '../interfaces';
+import { TodoModel } from '../../interfaces';
 
 const getTodo = (id = 1): TodoModel => ({
     id: id,

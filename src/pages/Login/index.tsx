@@ -3,8 +3,9 @@ import { UserModel } from '../../interfaces';
 import { useLoginMutation } from '../../services/controllerBaseQueries/auth';
 import { useNavigate } from 'react-router-dom';
 import { StyledLoginButtonContainer } from './styled';
-import { pages } from '../../constants';
+import { errorMessages, pages } from '../../constants';
 import LoginForm from '../../components/LoginForm';
+import { ActionError } from '../../components/Errors';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -13,7 +14,7 @@ const Login = () => {
     const onSubmit = (user: UserModel) => {
         loginMutation.mutate(user, {
             onSuccess: () => navigate(pages.todo.path),
-        });
+        }); 
     };
 
     return (
@@ -32,6 +33,11 @@ const Login = () => {
                     Register
                 </Button>
             </StyledLoginButtonContainer>
+            {loginMutation.error && (
+                <ActionError onClose={() => loginMutation.reset()}>
+                    {errorMessages.generalError}
+                </ActionError>
+            )}
         </LoginForm>
     );
 }

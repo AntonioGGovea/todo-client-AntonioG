@@ -1,12 +1,15 @@
-const messageBuilder = (action: string, objType: string) =>
-    `Error while ${action} the ${objType}.`
+const crudMessageBuilder = (action: string, objType: string) =>
+    `Error while ${action} the ${objType}.`;
+
+const generalError = 'Something went wrong.'
 
 const errorMessages = {
     todo: {
-        remove: messageBuilder("removing", "Todo"),
-        update: messageBuilder("updating", "Todo"),
-        create: messageBuilder("creating", "Todo"),
-    }
+        remove: crudMessageBuilder("removing", "Todo"),
+        update: crudMessageBuilder("updating", "Todo"),
+        create: crudMessageBuilder("creating", "Todo"),
+    },
+    generalError,
 }
 
 export default errorMessages;

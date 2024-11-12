@@ -22,14 +22,14 @@ const LoginForm = ({ children, onSubmit }: PropsWithChildren<LoginFormProps>) =>
                         <FormHeader>Welcome</FormHeader>
                         <FormContent>
                             <div>
-                                <Label className='mb-2' htmlFor='label'>Email</Label>
-                                <TextInput id='label' type='text' placeholder='email' {...register('email', { required: true })} />
+                                <Label className='mb-2' htmlFor='email'>Email</Label>
+                                <TextInput id='email' type='text' placeholder='Email' {...register('email', { required: true })} />
                                 {errors.email?.type === 'required' && (<InputError>This field is required.</InputError>)}
                             </div>
                             <div>
-                                <Label className='mb-2' htmlFor='label'>Password</Label>
+                                <Label className='mb-2' htmlFor='password'>Password</Label>
                                 <TextInput
-                                    id='label'
+                                    id='password'
                                     type='password'
                                     {...register('password', { required: true, minLength: 4 })}
                                 />
