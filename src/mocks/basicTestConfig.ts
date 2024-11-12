@@ -3,6 +3,7 @@ import { tokenClient } from '../config';
 import server from './node';
 import db from './db';
 import { TodoModel } from '../interfaces';
+import todoMockData from './todoMockData';
 
 const basicTestConfig = () => {
     const entries: { todo: TodoModel[] } = {
@@ -11,20 +12,20 @@ const basicTestConfig = () => {
 
     beforeAll(() => {
         tokenClient.set("token");
-        [1, 2, 3].map(() => entries.todo.push(db.todo.create()))
+        [1, 2, 3].map((i) => entries.todo.push(db.todo.create(todoMockData.getTodo(i))))
         server.listen()
     });
     afterEach(() => {
-        server.resetHandlers();
         const todoIds = entries.todo.map(x => Number(x.id))
         db.todo.deleteMany({ where: { id: { in: todoIds } }});
-        [1, 2, 3].map(() => entries.todo.push(db.todo.create()))
+        [1, 2, 3].map((_, i) => db.todo.create(entries.todo[i]))
+        server.resetHandlers();
     });
     afterAll(() => {
         tokenClient.remove();
-        server.close();
         const todoIds = entries.todo.map(x => Number(x.id))
         db.todo.deleteMany({ where: { id: { in: todoIds } }});
+        server.close();
     });
 
     return entries;

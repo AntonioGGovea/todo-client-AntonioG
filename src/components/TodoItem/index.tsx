@@ -22,11 +22,11 @@ const TodoItem = ({ todo, onDelete }: TodoItemProps) => {
     return (
         <StyledTodoItem>
             <div className='flex items-center gap-3'>
-                <button data-testid={`delete-${todo.id}`}>
-                    <FaTrash onClick={() => onDelete(Number(todo.id))} />
+                <button data-testid={`delete-${todo.id}`} onClick={() => onDelete(Number(todo.id))}>
+                    <FaTrash />
                 </button>
-                <button>
-                    <FaEdit onClick={onEditClick} />
+                <button data-testid={`update-${todo.id}`} onClick={onEditClick}>
+                    <FaEdit />
                 </button>
                 {todo.title}
             </div>

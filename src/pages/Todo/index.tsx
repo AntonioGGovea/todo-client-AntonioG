@@ -13,10 +13,6 @@ const Todo = () => {
 
     const todoQuery = useGetTodoListQuery();
     const deleteTodoMutation = useDeleteTodoMutation();
-
-    const onDelete = (id: number) => {
-        deleteTodoMutation.mutate(id)
-    };
     
     const onCreateClick = () => {
         setNewTodo();
@@ -40,7 +36,7 @@ const Todo = () => {
             <div>
                 <div className='flex flex-col gap-2'>
                     {todoQuery.data?.map((entry) => (
-                        <TodoItem key={entry.id} todo={entry} onDelete={onDelete} />
+                        <TodoItem key={entry.id} todo={entry} onDelete={deleteTodoMutation.mutate} />
                     ))}
                 </div>
             </div>

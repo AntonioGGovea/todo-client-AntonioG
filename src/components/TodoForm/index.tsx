@@ -46,15 +46,15 @@ const TodoForm = () => {
                 </FormHeader>
                 <FormContent>
                     <div>
-                        <Label className='mb-2' htmlFor='label'>
+                        <Label className='mb-2' htmlFor='title'>
                             Label
                         </Label>
-                        <TextInput id='label' type='text' placeholder='Label' {...register('title', { required: true })} />
+                        <TextInput id='title' type='text' placeholder='Title' {...register('title', { required: true })} />
                         {errors.title && (<InputError>This field is required</InputError>)}
                     </div>
                     <div className='flex items-center gap-3'>
-                        <input type='checkbox' {...register('isDone')} />
-                        <Label htmlFor='label'>Done</Label>
+                        <input id='isDone' type='checkbox' {...register('isDone')} />
+                        <Label htmlFor='isDone'>Done</Label>
                     </div>
                 </FormContent>
                 <div className='flex justify-end mt-6'>

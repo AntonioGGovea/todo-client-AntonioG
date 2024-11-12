@@ -18,16 +18,26 @@ export const handlers = [
     http.get(buildUrl(Controllers.Todo, db.todo.getAll()[0]?.id), () => {
         return HttpResponse.json(db.todo.getAll()[0])
     }),
-    http.delete(buildUrl(Controllers.Todo, db.todo.getAll()[0]?.id),
+    http.delete(buildUrl(Controllers.Todo, todoMockData.getTodo()?.id),
         () => {
-            db.todo.delete({ where: { id: { equals: Number(db.todo.getAll()[0]?.id) } } });
+            db.todo.delete({ where: { id: { equals: Number(todoMockData.getTodo()?.id) } } });
             return new HttpResponse(null, { status: 200 })
         }
     ),
     http.post(buildUrl(Controllers.Todo),
         () => {
-            db.todo.create(todoMockData.getTodo());
-            return HttpResponse.json(todoMockData.getTodo())
+            db.todo.create(todoMockData.getCreateTodo());
+            return HttpResponse.json(todoMockData.getCreateTodo())
+        }
+    ),
+    http.patch(buildUrl(Controllers.Todo),
+        () => {
+            db.todo.update({
+                where: { id: { equals: todoMockData.getTodo().id } },
+                data: todoMockData.getUpdatedTodo(),
+            },
+                );
+            return HttpResponse.json(todoMockData.getCreateTodo())
         }
     ),
 ]

@@ -15,6 +15,8 @@ const getTodoList = () => [
 const todoMockData = {
     getTodo,
     getTodoList,
+    getCreateTodo: () => getTodo(100),
+    getUpdatedTodo: () => ({ ...getTodo(), title: 'new title' }),
 };
 
 export default todoMockData;
