@@ -20,7 +20,7 @@ const Login = () => {
     return (
         <LoginForm onSubmit={onSubmit}>
             <StyledLoginButtonContainer>
-                <Button className='w-fit' type='submit'>
+                <Button className='w-fit' $color='secondary' type='submit'>
                     Login
                 </Button>
                 <Button
@@ -35,7 +35,7 @@ const Login = () => {
             </StyledLoginButtonContainer>
             {loginMutation.error && (
                 <ActionError onClose={loginMutation.reset}>
-                    {errorMessages.generalError}
+                    {errorMessages.generalError}. Verify your Data.
                 </ActionError>
             )}
         </LoginForm>

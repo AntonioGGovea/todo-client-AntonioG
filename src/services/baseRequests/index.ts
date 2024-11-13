@@ -18,7 +18,7 @@ export const apiRequest = <TBody = undefined>(
     const bodyIfExists = props.body && { body: JSON.stringify(props.body) };
 
     return fetch(
-        `${import.meta.env.BASE_URL}${props.controller}${endpoint}`, {
+        `${import.meta.env.VITE_BASE_URL}${props.controller}${endpoint}`, {
         method: props.method ?? 'GET',
         headers: {
             'Content-Type': 'application/json',

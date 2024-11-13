@@ -22,7 +22,7 @@ const Button = tw.button<ButtonProps>`
         if (c.$color === 'white') {
             return c.$variant === 'text' ? 'text-white hover:text-gray-100' : 'text-black bg-white hover:bg-gray-100';
         }
-        return c.$variant === 'text' ? 'text-indigo-600 hover:text-indigo-700' : 'bg-indigo-600 hover:bg-indigo-700';
+        return c.$variant === 'text' ? 'text-slate-600 hover:text-slate-700' : 'bg-slate-500 hover:bg-slate-700';
     }}
 `;
 

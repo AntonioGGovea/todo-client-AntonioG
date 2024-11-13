@@ -34,7 +34,7 @@ test('Login fails causes error message to be displayed', async () => {
     fireEvent.change(await screen.findByLabelText('Password'), { target: { value: user.password } });
     fireEvent.click(await screen.findByText('Login'));
 
-    const todoScreen = await screen.findByText(errorMessages.generalError);
+    const todoScreen = await screen.findByText(errorMessages.generalError, { exact: false });
 
     expect(todoScreen).toBeInTheDocument();
 });
